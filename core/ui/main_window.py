@@ -1,10 +1,10 @@
 from PySide6.QtWidgets import (
-    QMainWindow, QWidget, QVBoxLayout, QPushButton, QLabel, QGraphicsView,
+    QMainWindow, QWidget, QVBoxLayout, QGraphicsView,
     QGraphicsView, QLayoutItem
 )
-from PySide6.QtCore import Qt, QTimer
-from PySide6.QtGui import QFont, QColor, QPalette, QPainter
-
+from PySide6.QtCore import QTimer
+from PySide6.QtGui import QPainter
+from core.ui.scenes.menu_scene import MenuScene
 
 class MainWindow(QMainWindow):
     def __init__(self, title: str="App", w: int=900, h: int=600) -> None:
@@ -29,7 +29,7 @@ class MainWindow(QMainWindow):
         
         self.game_state = "menu"
 
-        # Создаем цикл игры
+        # Создаем цикл приложения
         self.game_timer = QTimer()
         self.game_timer.setInterval(16)
         self.game_timer.timeout.connect(self.update_game)
@@ -38,21 +38,23 @@ class MainWindow(QMainWindow):
         self.show_menu()
     
     def update_game(self) -> None:
-        if self.game_state == "playing" and self.current_scene:
+        if self.current_scene:
             self.current_scene.update()
     
     def show_menu(self) -> None:
         # Очищаем сцену и останавливаем таймер
         self.clear_current_scene()
+
         self.game_state = "menu"
         self.game_timer.stop()
-
-        #                    ⬇⬇⬇⬇⬇⬇⬇⬇⬇ Добавлю позже
         self.current_scene = MenuScene()
-        self.view.setScene(self.current_scene)
 
-        self.main_layout.addWidget(self.view)
+        self.view.setScene(self.current_scene)
+        self.view.fitInView(self.current_scene.sceneRect())
         self.view.setFocus()
+ 
+        self.main_layout.addWidget(self.view)
+
     
     def clear_current_scene(self) -> None:
         if self.main_layout.count() > 0:

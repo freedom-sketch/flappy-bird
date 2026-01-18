@@ -2,7 +2,6 @@ from PySide6.QtCore import QRectF, QPointF
 from PySide6.QtGui import QPixmap, QPainter
 from abc import ABC, abstractmethod
 
-
 class Sprite(ABC):
     def __init__(self, image_path: str | None, x: float=0, y: float=0) -> None:
         self.image_path = image_path
