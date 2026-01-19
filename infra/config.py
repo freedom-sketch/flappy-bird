@@ -3,6 +3,8 @@ import json
 
 class Application(BaseModel):
     title: str = "App"
+    icon_path: str = ""
+    menu_background_path: str = ""
     width: int = 300
     height: int = 300
 

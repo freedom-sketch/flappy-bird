@@ -1,32 +1,29 @@
-from PySide6.QtWidgets import (
-    QMainWindow, QWidget, QVBoxLayout, QGraphicsView,
-    QGraphicsView, QLayoutItem
-)
+from PySide6.QtWidgets import QMainWindow, QWidget, QVBoxLayout, QLayoutItem
 from PySide6.QtCore import QTimer
-from PySide6.QtGui import QPainter
-from core.ui.scenes.menu_scene import MenuScene
+from PySide6.QtGui import QIcon
+from core.ui.scenes.menu import Menu
+from infra.config import Config
 
 class MainWindow(QMainWindow):
-    def __init__(self, title: str, w: int, h: int) -> None:
+    def __init__(self, config: Config) -> None:
         super().__init__()
-        self.setWindowTitle(title)
-        self.setFixedSize(w, h)
+        self.config = config
+
+        self.setWindowTitle(config.application.title)
+        self.setFixedSize(config.application.width, config.application.height)
+        if config.application.icon_path:
+            self.setWindowIcon(QIcon(config.application.icon_path))
 
         # Устанавливаем центральный виджет
         self.central_widget = QWidget()
         self.setCentralWidget(self.central_widget)
+
+        # Создаем основной вертикальный лэйаут
         self.main_layout = QVBoxLayout(self.central_widget)
         self.main_layout.setContentsMargins(0, 0, 0, 0)
-        self.main_layout.setSpacing(5)
+        self.main_layout.setSpacing(0)
 
-        # Создаем атрибут сцены и ее отображателя
-        self.current_scene = None
-        self.view = QGraphicsView()
-        self.view.setRenderHint(QPainter.RenderHint.Antialiasing |
-                                QPainter.RenderHint.TextAntialiasing |
-                                QPainter.RenderHint.SmoothPixmapTransform |
-                                QPainter.RenderHint.LosslessImageRendering, True)
-        
+        # Изначальное состояние - меню
         self.game_state = "menu"
 
         # Создаем цикл приложения
@@ -34,33 +31,28 @@ class MainWindow(QMainWindow):
         self.game_timer.setInterval(16)
         self.game_timer.timeout.connect(self.update_game)
 
-        # Отображаем меню
         self.show_menu()
-    
+
     def update_game(self) -> None:
-        if self.current_scene:
-            self.current_scene.update()
-    
+        pass
+
     def show_menu(self) -> None:
-        # Очищаем сцену и останавливаем таймер
-        self.clear_current_scene()
+        # Очищаем текущий виджет
+        self.clear_current_widget()
 
         self.game_state = "menu"
         self.game_timer.stop()
-        self.current_scene = MenuScene()
 
-        self.view.setScene(self.current_scene)
-        self.view.fitInView(self.current_scene.sceneRect())
-        self.view.setFocus()
- 
-        self.main_layout.addWidget(self.view)
+        # Создаем сцену меню
+        menu_scene = Menu(config=self.config)
+        self.main_layout.addWidget(menu_scene)
 
-    
-    def clear_current_scene(self) -> None:
+    def clear_current_widget(self) -> None:
+        # Удаляем текущий виджет из лэйаута
         if self.main_layout.count() > 0:
+            # Берем первый элемент из лэйаута
             item: QLayoutItem = self.main_layout.takeAt(0)
-
+            # Удаляем виджет, если он существует
             widget = item.widget()
             if widget:
                 widget.deleteLater()
-        self.current_scene = None

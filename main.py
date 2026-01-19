@@ -4,15 +4,15 @@ from core.ui.main_window import MainWindow
 from infra.config import Config
 
 def main() -> None:
+    # Загружаем конфигурацию
     cfg = Config.from_json_file("config.json")
-    app_settings = cfg.application
     
+    # Инициализация приложения
     app = QApplication()
-
-    window = MainWindow(title=app_settings.title, w=app_settings.width,
-                        h=app_settings.height)
+    window = MainWindow(cfg)
     window.show()
 
+    # Запуск главного цикла приложения
     sys.exit(app.exec())
 
 
