@@ -7,7 +7,7 @@ from PySide6.QtGui import QPainter
 from core.ui.scenes.menu_scene import MenuScene
 
 class MainWindow(QMainWindow):
-    def __init__(self, title: str="App", w: int=900, h: int=600) -> None:
+    def __init__(self, title: str, w: int, h: int) -> None:
         super().__init__()
         self.setWindowTitle(title)
         self.setFixedSize(w, h)
