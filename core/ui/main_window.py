@@ -14,11 +14,11 @@ class MainWindow(QMainWindow):
         if config.application.icon_path:
             self.setWindowIcon(QIcon(config.application.icon_path))
 
-        # Устанавливаем центральный виджет
+        # Центральный виджет
         self.central_widget = QWidget()
         self.setCentralWidget(self.central_widget)
 
-        # Создаем основной вертикальный лэйаут
+        # Создание основного вертикального лэйаута
         self.main_layout = QVBoxLayout(self.central_widget)
         self.main_layout.setContentsMargins(0, 0, 0, 0)
         self.main_layout.setSpacing(0)
@@ -26,7 +26,7 @@ class MainWindow(QMainWindow):
         # Изначальное состояние - меню
         self.game_state = "menu"
 
-        # Создаем цикл приложения
+        # Создание цикла приложения
         self.game_timer = QTimer()
         self.game_timer.setInterval(16)
         self.game_timer.timeout.connect(self.update_game)
@@ -37,18 +37,18 @@ class MainWindow(QMainWindow):
         pass
 
     def show_menu(self) -> None:
-        # Очищаем текущий виджет
+        # Очищение текущего виджета
         self.clear_current_widget()
 
         self.game_state = "menu"
         self.game_timer.stop()
 
-        # Создаем сцену меню
+        # Сцена меню
         menu_scene = Menu(config=self.config)
         self.main_layout.addWidget(menu_scene)
 
     def clear_current_widget(self) -> None:
-        # Удаляем текущий виджет из лэйаута
+        # Удаление текущего виджета из лэйаута
         if self.main_layout.count() > 0:
             # Берем первый элемент из лэйаута
             item: QLayoutItem = self.main_layout.takeAt(0)

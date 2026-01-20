@@ -4,11 +4,14 @@ from abc import ABC, abstractmethod
 
 class Sprite(ABC):
     def __init__(self, image_path: str | None, x: float=0, y: float=0) -> None:
+        # Накладываем текстуру спрайту, если путь к изображению задан
         self.image_path = image_path
         if image_path:
             self.pixmap = QPixmap(image_path)
         else:
-            QPixmap(64, 64)
+            # Если изображения нет, создаем пустое изображение-заглушку размером 64x64
+            self.pixmap = QPixmap(64, 64)
+        # Прямоугольник спрайта
         self.rect = QRectF(x, y, self.pixmap.width(), self.pixmap.height())
         self._visible: bool = True
         self._angle: float = 0.0
@@ -24,12 +27,17 @@ class Sprite(ABC):
         if not self._visible:
             return None
 
+        # Сохранение текущего состояния рисовальщика
         painter.save()
+        # Поворот рисовальщика относительно центра спрайта
         painter.translate(self.rect.center())
+        # Поворот на заданный угол
         painter.rotate(self._angle)
 
+        # Начальная точка рисования спрайта по x и y
         starting_x: int = int(-self.rect.width() / 2)
         starting_y: int = int(-self.rect.height() / 2)
+        # Рисование спрайта
         painter.drawPixmap(starting_x, starting_y, self.pixmap)
     
     @property
