@@ -7,12 +7,8 @@ class Menu(QWidget):
     def __init__(self, config: Config) -> None:
         super().__init__()
 
-        # Инициализация размеров и фона
-        self.w = config.application.width
-        self.h = config.application.height
-
         # Устанавливаем фиксированный размер виджета
-        self.setFixedSize(self.w, self.h)
+        self.setFixedSize(config.application.width, config.application.height)
 
         # Устанавливаем фон меню
         if config.application.menu_background_path:
@@ -39,7 +35,11 @@ class Menu(QWidget):
 
         for text in ["Старт", "Выход"]:
             btn = QPushButton(text)
-            btn.setFixedSize(220, 60)
+
+            btn_w = config.application.width // 2
+            btn_h = config.application.height // 8
+
+            btn.setFixedSize(btn_w, btn_h)
             btn.setStyleSheet("""
                 QPushButton {
                     font-size: 18px;
