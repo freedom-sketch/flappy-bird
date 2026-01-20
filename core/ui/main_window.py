@@ -26,22 +26,13 @@ class MainWindow(QMainWindow):
         # Изначальное состояние - меню
         self.game_state = "menu"
 
-        # Создание цикла приложения
-        self.game_timer = QTimer()
-        self.game_timer.setInterval(16)
-        self.game_timer.timeout.connect(self.update_game)
-
         self.show_menu()
-
-    def update_game(self) -> None:
-        pass
 
     def show_menu(self) -> None:
         # Очищение текущего виджета
         self.clear_current_widget()
 
         self.game_state = "menu"
-        self.game_timer.stop()
 
         # Сцена меню
         menu_scene = Menu(config=self.config)
