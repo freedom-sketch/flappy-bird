@@ -17,17 +17,24 @@ class Menu(QWidget):
         # Устанавливаем фон меню
         if config.application.menu_background_path:
             pixmap = QPixmap(config.application.menu_background_path)
+            # Настраиваем палитру для фона
             palette = self.palette()
+            # Устанавливаем фоновое изображение
             palette.setBrush(QPalette.ColorRole.Window, pixmap)
+            # Применяем палитру к виджету
             self.setPalette(palette)
+            # Устанавливаем автозаполнение фона
             self.setAutoFillBackground(True)
         else:
             self.setStyleSheet("background-color: white;")
 
         # Создаем вертикальный лэйаут для кнопок
         layout = QVBoxLayout(self)
+        # Устанавливаем отступы между объектами в лэйауте
         layout.setSpacing(16)
+        # Устанавливаем отступы вокруг лэйаута
         layout.setContentsMargins(20, 20, 20, 20)
+        # Устанавливаем выравнивание по центру
         layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         for text in ["Старт", "Выход"]:
