@@ -1,16 +1,16 @@
-from PySide6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QPushButton, QLabel
-from PySide6.QtCore import Qt
+from PySide6.QtWidgets import QWidget, QVBoxLayout, QLabel
+from PySide6.QtCore import Qt, QSize
 from PySide6.QtGui import QPixmap, QPalette
-from infra.config import Config
+
 
 class Menu(QWidget):
-    def __init__(self, config: Config) -> None:
+    def __init__(self) -> None:
         super().__init__()
 
-        # Устанавливаем фиксированный размер виджета
-        self.setFixedSize(config.application.width, config.application.height)
         # Устанавливаем фон
-        self.set_background(config.application.menu_background_path)
+        background_size = self.set_background("assets/sprites/background-day.png")
+        # Устанавливаем фиксированный размер виджета
+        self.setFixedSize(background_size.width(), background_size.height())
         # Устанавливаем лэйаут
         vbox_layout = self.set_vbox_layout()
 
@@ -21,19 +21,18 @@ class Menu(QWidget):
         vbox_layout.addWidget(get_ready_label)
         vbox_layout.addWidget(tap_label)
 
-    def set_background(self, image_path: str | None) -> None:
-        if image_path:
-            pixmap = QPixmap(image_path)
-            # Настраиваем палитру для фона
-            palette = self.palette()
-            # Устанавливаем фоновое изображение
-            palette.setBrush(QPalette.ColorRole.Window, pixmap)
-            # Применяем палитру к виджету
-            self.setPalette(palette)
-            # Устанавливаем автозаполнение фона
-            self.setAutoFillBackground(True)
-        else:
-            self.setStyleSheet("background-color: white;")
+    def set_background(self, image_path: str) -> QSize:
+        pixmap = QPixmap(image_path)
+        # Настраиваем палитру для фона
+        palette = self.palette()
+        # Устанавливаем фоновое изображение
+        palette.setBrush(QPalette.ColorRole.Window, pixmap)
+        # Применяем палитру к виджету
+        self.setPalette(palette)
+        # Устанавливаем автозаполнение фона
+        self.setAutoFillBackground(True)
+
+        return pixmap.size()
     
     def set_vbox_layout(self) -> QVBoxLayout:
         # Создаем вертикальный лэйаут для кнопок

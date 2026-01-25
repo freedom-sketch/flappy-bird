@@ -1,18 +1,16 @@
 from PySide6.QtWidgets import QMainWindow, QWidget, QVBoxLayout, QLayoutItem
-from PySide6.QtCore import QTimer
-from PySide6.QtGui import QIcon
+from PySide6.QtGui import QIcon, QPixmap
+
 from core.ui.scenes.menu import Menu
-from infra.config import Config
+
 
 class MainWindow(QMainWindow):
-    def __init__(self, config: Config) -> None:
+    def __init__(self) -> None:
         super().__init__()
-        self.config = config
 
-        self.setWindowTitle(config.application.title)
-        self.setFixedSize(config.application.width, config.application.height)
-        if config.application.icon_path:
-            self.setWindowIcon(QIcon(config.application.icon_path))
+        self.set_title("Flappy Bird")
+        self.set_window_size("assets/sprites/background-day.png")
+        self.set_icon("assets/icon.ico")
 
         # Центральный виджет
         self.central_widget = QWidget()
@@ -23,10 +21,19 @@ class MainWindow(QMainWindow):
         self.main_layout.setContentsMargins(0, 0, 0, 0)
         self.main_layout.setSpacing(0)
 
-        # Изначальное состояние - меню
         self.game_state = "menu"
 
         self.show_menu()
+    
+    def set_window_size(self, background_path: str) -> None:
+        size = QPixmap(background_path).size()
+        self.setFixedSize(size.width(), size.height())
+    
+    def set_icon(self, icon_path: str) -> None:
+        self.setWindowIcon(QIcon(icon_path))
+    
+    def set_title(self, title) -> None:
+        self.setWindowTitle(title)
 
     def show_menu(self) -> None:
         # Очищение текущего виджета
@@ -35,7 +42,7 @@ class MainWindow(QMainWindow):
         self.game_state = "menu"
 
         # Сцена меню
-        menu_scene = Menu(config=self.config)
+        menu_scene = Menu()
         self.main_layout.addWidget(menu_scene)
 
     def clear_current_widget(self) -> None:
