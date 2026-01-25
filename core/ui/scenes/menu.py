@@ -1,5 +1,3 @@
-from cProfile import label
-import re
 from PySide6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QPushButton, QLabel
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QPixmap, QPalette
