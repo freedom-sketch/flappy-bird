@@ -1,0 +1,30 @@
+WINDOW_WIDTH: int = 400
+WINDOW_HEIGHT: int = 600
+FPS_INTERVAL: int = 16
+
+BIRD_START_X: float = 60.0
+BIRD_START_Y: float = WINDOW_HEIGHT / 2.0
+BIRD_GRAVITY: float = 0.6
+BIRD_FLAP_POWER: float = -8.5
+BIRD_ROTATION_UP: float = -25.0
+BIRD_ROTATION_DOWN: float = 90.0
+BIRD_ROTATION_SPEED: float = 4.0
+BIRD_ANIM_SPEED: int = 5
+HITBOX_MARGIN: float = 8.0
+
+PIPE_SPEED: float = 3.0
+PIPE_SPAWN_INTERVAL: int = 90
+PIPE_GAP: int = 140
+PIPE_SPAWN_X: float = float(WINDOW_WIDTH + 50)
+PIPE_MIN_CENTER: int = 150
+PIPE_MAX_CENTER: int = int(WINDOW_HEIGHT - 200)
+PIPE_SPRITE_HEIGHT: int = 320
+
+BASE_Y: float = float(WINDOW_HEIGHT - 100)
+SCORE_Y: float = 50.0
+
+Z_BG: float = -2.0
+Z_BIRD: float = 5.0
+Z_BASE: float = 10.0
+Z_UI: float = 20.0
+Z_SCORE: float = 50.0
